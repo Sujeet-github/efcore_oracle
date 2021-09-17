@@ -1,0 +1,36 @@
+***Nuget required
+>Oracle.EntityFrameworkCore
+>Microsoft.EntityFrameworkCore.Tools
+>Microsoft.EntityFrameworkCore.Design
+
+
+**create model of existing schema
+dotnet ef dbcontext scaffold "Data Source=10.10.11.225:1521/BFLDBUAT;User Id=EFCOREPOC;Password=EFCOREPOC" Oracle.EntityFrameworkCore -o Models
+**base line migration file
+dotnet ef migrations add "file name"
+**migrate new changes into database 
+dotnet ef database update
+**revert first migration from database
+dotnet ef database update 0
+**get list of all migrations
+dotnet ef migrations list
+**revert last unwanted migration, apply last success migrations (get the list using the list command)
+dotnet ef database update 20210818081719_columnadded
+
+
+***steps to migrate database first time 
+>create models and schema details using dbcontext scaffold commands
+>execute migrations command to create snap shot 
+>delete first migration files in (case of existing database) that will remain un-apply into database
+>now we can add comlumns in model or procedures, seq etc using "database update" command
+
+***steps to create alter procedure 
+>there are two way to create / alter procedures / functions using EntityFrameworkCore
+1.
+    -create empty migration and add procedures / functions / custome sql etc. for example (20210818082437_sp_getcarddata).
+    -Make sure customer sql should be written in (Up) function for creation/alter and (Down) function to revert the changes in case of any issue 
+    
+
+
+
+
